@@ -5,7 +5,7 @@ class MoviesSerializer
 
   def to_serialized_json
     @movie.to_json(:include => {
-      :reviews => {:except => [:movies]}
+      :reviews => {:except => [:movie]}
       })
   end
 end
