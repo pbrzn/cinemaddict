@@ -4,12 +4,12 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:create]
       post '/login', to: 'auth#create'
-      get '/profile', to: 'users#profile'
+      get '/profile/:id', to: 'users#show'
 
-      resources :reviews, only: [:index, :create, :new, :update, :edit, :delete]
+      resources :reviews, only: [:index, :create, :show, :new, :update, :edit, :delete]
 
-      resources :movies, only: [:index, :create, :new, :update, :edit, :delete]
-      
+      resources :movies, only: [:index, :create, :show, :new, :update, :edit, :delete]
+
     end
   end
 end
