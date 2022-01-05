@@ -6,9 +6,9 @@ Rails.application.routes.draw do
       post '/login', to: 'auth#create'
       get '/profile/:id', to: 'users#show'
 
-      resources :reviews, only: [:index, :create, :show, :new, :update, :edit, :delete]
+      resources :reviews, only: [:index, :create, :show, :new, :update, :edit, :destroy]
 
-      resources :movies, only: [:index, :create, :show, :new, :update, :edit, :delete]
+      resources :movies, only: [:index, :create, :show, :new, :update, :edit, :destroy]
 
     end
   end
