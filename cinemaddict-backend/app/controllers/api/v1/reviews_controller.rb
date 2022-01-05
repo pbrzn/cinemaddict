@@ -6,6 +6,8 @@ class Api::V1::ReviewsController < ApplicationController
 
   def create
     review = Review.create(review_params)
+    movie = Movie.find_by(id: review.movie_id)
+    movie.update(cinemaddict_rating: movie.find_avg_rating)
     render json: ReviewSerializer.new(review)
   end
 
@@ -16,6 +18,10 @@ class Api::V1::ReviewsController < ApplicationController
 
   def update
     review = Review.update(review_params)
+    if review_params.includes?(review.rating)
+      movie = Movie.find_by(id: review.movie_id)
+      movie.update(cinemaddict_rating: movie.find_avg_rating)
+    end
     render json: ReviewSerializer.new(review)
   end
 
@@ -23,5 +29,11 @@ class Api::V1::ReviewsController < ApplicationController
     review = Review.find_by(id: params[:id])
     review.destroy
     render json: { message: "This review has been deleted" }
+  end
+
+  private
+
+  def review_params
+    params.require(:review).permit(:title, :body, :rating, :user_id, :movie_id)
   end
 end
