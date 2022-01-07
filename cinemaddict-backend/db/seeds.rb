@@ -2020,6 +2020,5 @@ Movie.create([
   end
 
   Movie.all.each do |movie|
-    avg_rating = movie.reviews.map{ |rev| rev.rating }.sum.to_f / movie.reviews.length.to_f
-    movie.update(cinemaddict_rating: avg_rating.round(1))
+    movie.update(cinemaddict_rating: movie.find_avg_rating.round(1))
   end
