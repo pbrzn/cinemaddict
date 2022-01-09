@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 class Review extends Component {
 
-  formatParagraphs = props => {
+  formatParagraphs = () => {
     this.props.body.map(paragraph => <p>paragraph</p>)
   }
 
@@ -13,7 +13,7 @@ class Review extends Component {
         <h1>{this.props.title}</h1>
         <h2>Rating: {this.props.rating}</h2>
         <h3>{this.props.user.username}'s review of {this.props.movie.title}</h3>
-        {this.formatParagraphs}
+        {this.formatParagraphs()}
       </div>
     );
   }

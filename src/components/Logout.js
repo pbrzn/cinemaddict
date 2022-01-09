@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { logoutUser } from './actions/usersActions';
+import { logoutUser } from '../actions/usersActions';
+import Button from 'react-bootstrap/Button';
 
 class Logout extends Component {
   handleOnClick = event => {
-    this.props.logout(this.props.user.id)
+    this.props.logout()
   }
 
   render() {
     return (
-      <>
-        <button onClick={event => this.handleOnClick(event)} />
-      </>
+      <div>
+        <Button variant="primary" onClick={event => this.handleOnClick()}>Logout</Button>{' '}
+      </div>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return { logout: (id) => dispatch(logoutUser(id))}
+  return { logout: () => dispatch(logoutUser)}
 }
 
 export default connect(null, mapDispatchToProps)(Logout);
