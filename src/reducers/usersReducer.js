@@ -1,15 +1,49 @@
 export default function usersReducer(state = {
-  users: []
+  allUsers: [],
+  currentUser: {},
+  requesting: false
 }, action) {
   switch (action.type) {
     case 'ADD_USER':
-      return state.concat(action.user)
+      return {
+        ...state,
+        allUsers: state.allUsers.concat(action.user),
+        currentUser: action.user,
+        requesting: false
+      }
+
+    case 'START_ADD_USER_REQUEST':
+      return {
+        ...state,
+        requesting: true
+      }
 
     case 'LOGIN_USER':
-      return
+      return {
+        ...state,
+        currentUser: action.user,
+        requesting: false
+      }
+
+    case 'START_LOGIN_USER_REQUEST':
+      return {
+        ...state,
+        requesting: true
+      }
 
     case 'LOGOUT_USER':
-      return
+      return {
+        ...state,
+        currentUser: {},
+        requesting: false
+      }
+
+    case 'REDIRECT_TO_PROFILE':
+      return {
+        ...state,
+        currentUser: {},
+        requesting: false
+      }
 
     default:
       return state;

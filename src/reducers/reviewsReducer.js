@@ -1,6 +1,4 @@
-export default function reviewsReducer(state = {
-  reviews: []
-}, action) {
+export default function reviewsReducer(state = [], action) {
   switch (action.type) {
     case 'ADD_REVIEW':
       return state.reviews.concat(action.review);

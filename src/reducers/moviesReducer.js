@@ -1,6 +1,4 @@
-export default function moviesReducer(state = {
-  movies: []
-}, action) {
+export default function moviesReducer(state = [], action) {
   switch (action.type) {
     case 'ADD_REVIEW':
       return state.movies.concat(action.movie);
