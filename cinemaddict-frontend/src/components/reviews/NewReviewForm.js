@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import { connect } from 'react-redux';
 
 class NewReviewForm extends Component {
@@ -25,8 +27,7 @@ class NewReviewForm extends Component {
     })
   }
 
-  createUser = userObject => {
-    this.props.startReviewRequest();
+  createReview = reviewObject => {
     fetch("http://localhost:3000/api/v1/reviews", {
       method: "POST",
       headers: {
@@ -42,11 +43,36 @@ class NewReviewForm extends Component {
   }
 
   createRadioButtons = () => {
-    let counter = 0
-    while (counter < 10) {
-      counter ++;
-      return <input type="radio" name="rating" value={counter}>{counter}</input>
-    }
+    const radios = [
+      { name: '1', value: '1' },
+      { name: '2', value: '2' },
+      { name: '3', value: '3' },
+      { name: '4', value: '4' },
+      { name: '5', value: '5' },
+      { name: '6', value: '6' },
+      { name: '7', value: '7' },
+      { name: '8', value: '8' },
+      { name: '9', value: '9' },
+      { name: '10', value: '10' }
+    ]
+
+    return (
+      <ButtonGroup className="mb-2" id={this.props.movie}>
+        {radios.map((radio, idx) => (
+          <ToggleButton
+            key={idx}
+            id={`radio-${idx}`}
+            type="radio"
+            variant="secondary"
+            name="radio"
+            value={radio.value}
+            onChange={this.handleOnChange}
+          >
+            {radio.name}
+          </ToggleButton>
+        ))}
+      </ButtonGroup>
+    )
   }
 
   render() {
@@ -54,9 +80,9 @@ class NewReviewForm extends Component {
       <div>
         <form onSubmit={this.handleOnSubmit} >
           Title: <input type="text" name="username" onChange={this.handleOnChange} /><br/>
-          Rating: {this.createRadioButtons()}
+          Rating: {this.createRadioButtons()}<br/>
           Body: <input type="textarea" name="bio" onChange={this.handleOnChange} /><br/>
-          <Button type="submit" variant="outline-dark">Submit</Button>
+          <Button type="submit" variant="outline-dark">Submit</Button><br/>
         </form>
       </div>
     )
@@ -71,15 +97,14 @@ const mapStateToProps = state => {
       rating: state.rating,
       movie: state.movie,
       user: state.user
-    }
+    },
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    startReviewRequest: () => dispatch({ type: 'START_ADD_REVIEW_REQUEST' }),
     addReview: (reviewObject) => dispatch({ type: 'ADD_REVIEW', reviewObject }),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewUserForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NewReviewForm);

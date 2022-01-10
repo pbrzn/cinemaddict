@@ -4,6 +4,7 @@ export default function usersReducer(state = {
   requesting: false
 }, action) {
   switch (action.type) {
+    
     case 'ADD_USER':
       return {
         ...state,
@@ -32,13 +33,6 @@ export default function usersReducer(state = {
       }
 
     case 'LOGOUT_USER':
-      return {
-        ...state,
-        currentUser: {},
-        requesting: false
-      }
-
-    case 'REDIRECT_TO_PROFILE':
       return {
         ...state,
         currentUser: {},

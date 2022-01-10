@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { logoutUser } from '../actions/usersActions';
 import Button from 'react-bootstrap/Button';
 
 class Logout extends Component {
@@ -17,8 +16,14 @@ class Logout extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return { logout: () => dispatch(logoutUser)}
+const mapStateToProps = state => {
+  return {
+    user: state.currentUser
+  }
 }
 
-export default connect(null, mapDispatchToProps)(Logout);
+const mapDispatchToProps = dispatch => {
+  return { logout: () => dispatch({ type: 'LOGOUT_USER' })}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

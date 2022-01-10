@@ -3,6 +3,7 @@ class Movie < ApplicationRecord
   has_many :users, through: :reviews
 
   def find_avg_rating
-    self.reviews.map{ |rev| rev.rating }.sum.to_f / self.reviews.length.to_f
+    rating = self.reviews.map{ |rev| rev.rating }.sum.to_f / self.reviews.length.to_f
+    rating.round(1)
   end
 end

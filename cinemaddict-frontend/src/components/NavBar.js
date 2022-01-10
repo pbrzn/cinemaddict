@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import Logout from './Logout';
+import Logout from './users/Logout';
 import logo from '../images/Film-Reel-256.ico';
 
 const NavBar = () => {

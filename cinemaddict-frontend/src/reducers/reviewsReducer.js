@@ -6,6 +6,9 @@ export default function reviewsReducer(state = [], action) {
     case 'DELETE_REVIEW':
       return state.reviews.filter(review => review.id !== action.reviewId);
 
+    case 'FETCH_REVIEWS':
+      return action.reviews.data
+
     default:
       return state;
   }

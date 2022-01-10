@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { connect } from 'react-redux';
-// import ReviewsContainer from './containers/ReviewsContainer';
+// import ReviewsContainer from '../reviews/ReviewsContainer';
 import { Link } from 'react-router-dom';
 
 class Profile extends Component {
