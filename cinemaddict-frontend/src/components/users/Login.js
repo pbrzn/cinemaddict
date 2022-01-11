@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
 import Button from 'react-bootstrap/Button'
 import Profile from './Profile'
 
@@ -19,7 +17,6 @@ class Login extends Component {
   }
 
   loginUser = loginInfo => {
-    // let navigate = useNavigate();
     this.props.startLoginRequest();
     fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
@@ -34,7 +31,6 @@ class Login extends Component {
       this.props.login(data.user);
       localStorage.setItem("jwt", data.jwt)
       this.setUser(data)
-      return <Navigate to={<Profile props={data}/>} />
     });
   }
 
@@ -51,10 +47,9 @@ class Login extends Component {
     return (
       <div>
         <form onSubmit={this.handleOnSubmit} >
-          Username: <input type="text" name="username" onChange={this.handleOnChange} /><br/>
-          Password: <input type="password" name="password" onChange={this.handleOnChange} /><br/>
+          Username: <input type="text" name="username" value={this.state.username} onChange={this.handleOnChange} /><br/>
+          Password: <input type="password" name="password" value={this.state.password} onChange={this.handleOnChange} /><br/>
           <Button type="submit" variant="outline-dark">Login</Button>
-          <Outlet />
         </form>
       </div>
     );

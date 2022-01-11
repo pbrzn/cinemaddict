@@ -9,6 +9,8 @@ class NewReviewForm extends Component {
     title: "",
     body: "",
     rating: "",
+    movie_id: this.props.movie.id,
+    user_id: 1
   }
 
   handleOnChange = event => {
@@ -28,6 +30,7 @@ class NewReviewForm extends Component {
   }
 
   createReview = reviewObject => {
+    console.log(reviewObject)
     fetch("http://localhost:3000/api/v1/reviews", {
       method: "POST",
       headers: {
@@ -38,6 +41,7 @@ class NewReviewForm extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
+      console.log(data)
       this.props.addReview(data);
     })
   }
@@ -57,14 +61,14 @@ class NewReviewForm extends Component {
     ]
 
     return (
-      <ButtonGroup className="mb-2" id={this.props.movie}>
+      <ButtonGroup className="mb-2" id={this.props.movie.id}>
         {radios.map((radio, idx) => (
           <ToggleButton
             key={idx}
-            id={`radio-${idx}`}
+            id={`${this.props.movie.id}-${idx}`}
             type="radio"
             variant="secondary"
-            name="radio"
+            name="rating"
             value={radio.value}
             onChange={this.handleOnChange}
           >
@@ -79,9 +83,9 @@ class NewReviewForm extends Component {
     return (
       <div>
         <form onSubmit={this.handleOnSubmit} >
-          Title: <input type="text" name="username" onChange={this.handleOnChange} /><br/>
+          Title: <input type="text" name="title" value={this.state.title} onChange={this.handleOnChange} /><br/>
           Rating: {this.createRadioButtons()}<br/>
-          Body: <input type="textarea" name="bio" onChange={this.handleOnChange} /><br/>
+          Body: <input type="textarea" name="body" value={this.state.body} onChange={this.handleOnChange} /><br/>
           <Button type="submit" variant="outline-dark">Submit</Button><br/>
         </form>
       </div>
@@ -94,8 +98,8 @@ const mapStateToProps = state => {
     review: {
       title: state.title,
       body: state.body,
-      rating: state.rating,
-      movie: state.movie,
+      rating: parseInt(state.rating, 10),
+      movieId: state.movie_id,
       user: state.user
     },
   }
@@ -103,7 +107,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addReview: (reviewObject) => dispatch({ type: 'ADD_REVIEW', reviewObject }),
+    addReview: (reviewObject) => dispatch({ type: 'ADD_REVIEW', review: reviewObject }),
   }
 }
 

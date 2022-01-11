@@ -1,20 +1,21 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import NewReviewForm from '../reviews/NewReviewForm';
-import ReviewStub from '../reviews/ReviewStub';
+import Review from '../reviews/Review';
 
 class Movie extends Component {
 
-  displayFeaturedReview = props => {
+  displayReviews = props => {
     if (props.reviews.length !== 0) {
       return (
         <>
           {''}
-          <h3>Featured Review:</h3>
-          <ReviewStub
-            title={props.reviews[0].title}
-            rating={props.reviews[0].rating}
-            body={props.reviews[0].body.slice(0, 140)}
-          />
+          <h3>Reviews:</h3>
+          {props.reviews.map(review => <Review
+            title={review.attributes.title}
+            rating={review.attributes.rating}
+            body={review.attributes.body}
+            username={review.attributes.user.username}
+          />)}
           {''}
         </>
       )
@@ -30,7 +31,8 @@ class Movie extends Component {
   }
 
   render(){
-    const movie = this.props.movie.attributes;
+    debugger;
+    const movie = this.props.movies.attributes;
     return (
       <div>
         <img src={movie.poster} alt={movie.id} />
@@ -40,7 +42,7 @@ class Movie extends Component {
         <p><b>Director:</b> {movie.director}</p>
         <p><b>Starring:</b> {movie.starring}</p>
 
-        {this.displayFeaturedReview(movie)}
+        {this.displayReviews(movie)}
 
         <p><b>Write A Review</b></p>
         <NewReviewForm />

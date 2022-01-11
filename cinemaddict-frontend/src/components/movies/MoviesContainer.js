@@ -1,5 +1,7 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
+import MovieStub from './MovieStub';
 import Movie from './Movie';
+import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchMovies } from '../actions/fetchMovies';
 
@@ -9,15 +11,23 @@ class MoviesContainer extends Component {
     this.props.fetchMovies()
   }
 
-  renderMovies = () => this.props.movies.map((movie) => {
-    return <Movie key={movie.id} movie={movie}/>
+  renderMovieStubs = () => this.props.movies.map((movie) => {
+    return (
+      <div key={movie.id} className="movie-stub">
+      <MovieStub movie={movie}/>
+      <Route
+        path={`${this.props.match.url}/:movieId`}
+        render={(routerProps) => <Movie {...routerProps} match={this.props.match} movie={movie}/>}
+      />
+      </div>
+    )
   })
 
   render(){
     return (
       <div className="movies-container">
         <h1>Movies</h1>
-        {this.renderMovies()}
+        {this.renderMovieStubs()}
       </div>
     );
   }

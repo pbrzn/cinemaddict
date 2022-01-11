@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class NewUserForm extends Component {
@@ -23,7 +22,6 @@ class NewUserForm extends Component {
   }
 
   createUser = userObject => {
-    let navigate = useNavigate();
     this.props.startUserRequest();
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
@@ -37,7 +35,6 @@ class NewUserForm extends Component {
     .then(data => {
       this.props.addUser(data);
       localStorage.setItem("jwt", data.jwt);
-      navigate(`/profile/${data.user.id}`)
     })
   }
 

@@ -11,7 +11,7 @@ class ReviewsContainer extends Component {
 
   renderReviews = () => this.props.reviews.map(review => {
     return (
-      <>
+      <li key={review.id}>
         <Review
           title={review.attributes.title}
           body={review.attributes.body}
@@ -19,14 +19,16 @@ class ReviewsContainer extends Component {
           movieTitle={review.attributes.movie.title}
           username={review.attributes.user.username}
         />
-      </>
+      </li>
     )
   })
 
   render() {
     return (
       <div>
-        {this.renderReviews()}
+        <ul>
+          {this.renderReviews()}
+        </ul>
       </div>
     )
   }

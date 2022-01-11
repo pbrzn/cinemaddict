@@ -1,11 +1,11 @@
-import React, { Component} from 'react';
+import React from 'react';
 
 const Review = props => {
   return (
-    <div className="review">
-      <h1>{props.title}</h1>
-      <h2>Rating: {props.rating}</h2>
-      <h3>{props.username}'s review of {props.movieTitle}</h3>
+    <div className="review" >
+      <h1><b>{props.username}</b>{props.movieTitle ? <>'s review of <i>{props.movieTitle}</i></> : ''}</h1>
+      <h2>{props.title}</h2>
+      <h3>Rating: {props.rating}</h3>
       {props.body}
     </div>
   );
