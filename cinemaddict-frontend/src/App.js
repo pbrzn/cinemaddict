@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Home from './components/Home';
 import NewUserForm from './components/users/NewUserForm';
 import Login from './components/users/Login';
@@ -19,24 +19,19 @@ class App extends Component {
     return (
       <>
         <NavBar />
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<NewUserForm />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/profile/:id" element={<Profile />} >
-              <Route path="/profile/:id/reviews" element={<ReviewsContainer />} />
-              {/*<Route path="/profile/reviews/:id/edit" element={<EditReview />} />*/}
-            </Route>
-            <Route path="/reviews" element={<ReviewsContainer />} >
-              <Route path="/reviews/:id" element={<Review />} />
-            </Route>
-            <Route path="/movies" element={<MoviesContainer />} >
-              <Route path="/movies/:id" element={<Movie />} />
-            </Route>
-            {/*<Route path="/logout" element={<Logout />} />*/}
-          </Routes>
-        </Router>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/register" component={NewUserForm} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/profile/:id" component={<Profile />} />
+          <Route exact path="/profile/:id/reviews" component={<ReviewsContainer />} />
+            {/*<Route path="/profile/reviews/:id/edit" element={<EditReview />} />*/}
+          <Route exact path="/reviews" component={ReviewsContainer} />
+            <Route exact path="/reviews/:id" component={<Review />} />
+
+          <Route exact path="/movies" render={(routerProps) => <MoviesContainer {...routerProps} />} />
+            {/*<Route exact path="/movies/:id" component={<Movie />} />
+          </Route>*/}
+          {/*<Route path="/logout" element={<Logout />} />*/}
       </>
     );
   }
