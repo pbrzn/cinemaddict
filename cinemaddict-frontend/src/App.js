@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Home from './components/Home';
 import NewUserForm from './components/users/NewUserForm';
 import Login from './components/users/Login';
@@ -19,19 +19,19 @@ class App extends Component {
     return (
       <>
         <NavBar />
+          <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/register" component={NewUserForm} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/profile/:id" component={<Profile />} />
-          <Route exact path="/profile/:id/reviews" component={<ReviewsContainer />} />
+          <Route path="/register" component={NewUserForm} />
+          <Route path="/login" component={Login} />
+          <Route path="/profile/:id" component={<Profile />} />
+          <Route path="/profile/:id/reviews" component={<ReviewsContainer />} />
             {/*<Route path="/profile/reviews/:id/edit" element={<EditReview />} />*/}
           <Route exact path="/reviews" component={ReviewsContainer} />
             <Route exact path="/reviews/:id" component={<Review />} />
 
-          <Route exact path="/movies" render={(routerProps) => <MoviesContainer {...routerProps} />} />
-            {/*<Route exact path="/movies/:id" component={<Movie />} />
-          </Route>*/}
+          <Route path="/movies" render={(routerProps) => <MoviesContainer {...routerProps} />} />
           {/*<Route path="/logout" element={<Logout />} />*/}
+          </Switch>
       </>
     );
   }

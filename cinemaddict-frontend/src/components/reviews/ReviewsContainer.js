@@ -17,6 +17,7 @@ class ReviewsContainer extends Component {
           body={review.attributes.body}
           rating={review.attributes.rating}
           movieTitle={review.attributes.movie.title}
+          moviePoster={review.attributes.movie.poster}
           username={review.attributes.user.username}
         />
       </li>

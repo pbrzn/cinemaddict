@@ -21,7 +21,7 @@ class Profile extends Component {
         <img src={this.props.avatar} alt={this.props.username} />
         <h1>{this.props.username}</h1>
         <h3>Bio: </h3> <p>{this.props.bio}</p>
-        {/*<ReviewsContainer props={this.props.reviews} />*/}
+        <ReviewsContainer props={this.props.reviews} />
         <Link to="/movies">Movies</Link>
       </div>
     )
