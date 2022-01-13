@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const ReviewStub = props => {
+const ReviewsList = props => {
   return (
     <div>
       <h4>"{props.title}" – User Rating: {props.rating}/10</h4>
@@ -9,4 +9,4 @@ const ReviewStub = props => {
   );
 }
 
-export default ReviewStub
+export default ReviewsList

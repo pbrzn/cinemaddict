@@ -10,7 +10,7 @@ class NewReviewForm extends Component {
     body: "",
     rating: "",
     movie_id: this.props.movie.id,
-    user_id: 1
+    user_id: this.props.user.id
   }
 
   handleOnChange = event => {
