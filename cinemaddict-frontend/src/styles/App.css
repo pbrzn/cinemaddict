@@ -46,3 +46,7 @@
   font-size: 22pt;
   font-weight: bold;
 }
+
+li {
+  list-style-type: none;
+}

@@ -16,6 +16,7 @@ import './styles/App.css';
 class App extends Component {
 
   render() {
+    const loggedIn = localStorage.jwt ? true : false
     return (
       <>
         <NavBar />
@@ -24,13 +25,9 @@ class App extends Component {
           <Route path="/register" component={NewUserForm} />
           <Route path="/login" component={Login} />
           <Route path="/profile/:id" component={<Profile />} />
-          <Route path="/profile/:id/reviews" component={<ReviewsContainer />} />
-            {/*<Route path="/profile/reviews/:id/edit" element={<EditReview />} />*/}
           <Route exact path="/reviews" component={ReviewsContainer} />
             <Route exact path="/reviews/:id" component={<Review />} />
-
           <Route path="/movies" render={(routerProps) => <MoviesContainer {...routerProps} />} />
-          {/*<Route path="/logout" element={<Logout />} />*/}
           </Switch>
       </>
     );
