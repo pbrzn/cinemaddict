@@ -5,19 +5,22 @@ import Review from '../reviews/Review';
 class Movie extends Component {
 
   displayReviews = props => {
-    if (props.length !== 0) {
+    if (props.reviews.length !== 0) {
       return (
         <>
           {''}
           <h3>Reviews:</h3>
           {props.reviews.map(review => {
             const user = props.users.find(user => user.id === review.user_id)
-            return (<Review
-              title={review.title}
-              rating={review.rating}
-              body={review.body}
-              username={user.username}
-              />)
+            return (
+              <li key={review.id}>
+                <Review
+                  title={review.title}
+                  rating={review.rating}
+                  body={review.body}
+                  username={user.username}
+                />
+              </li>)
             }
           )}
           {''}
@@ -35,7 +38,7 @@ class Movie extends Component {
   }
 
   render(){
-    debugger;
+    const loggedIn = localStorage.jwt ? true : false
     const movie = this.props.movies.find(movie => movie.id === this.props.match.params.movieId).attributes
     return (
       <div>
@@ -45,11 +48,10 @@ class Movie extends Component {
 
         <p><b>Director:</b> {movie.director}</p>
         <p><b>Starring:</b> {movie.starring}</p>
-
-        {this.displayReviews(movie)}
-
-        <p><b>Write A Review</b></p>
-        <NewReviewForm movie={movie}/>
+        <ul>
+          {this.displayReviews(movie)}
+        </ul>
+        {loggedIn ? <><p><b>Write A Review</b></p><NewReviewForm movie={movie} user={this.props.currentUser}/></> : <></>}
       </div>
     );
   }
