@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button'
-import Profile from './Profile'
 
 class Login extends Component {
   state = {
     username: "",
     password: "",
+    loggedIn: false
   }
 
   handleOnChange = event => {
@@ -17,7 +17,6 @@ class Login extends Component {
   }
 
   loginUser = loginInfo => {
-    this.props.startLoginRequest();
     fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
       headers: {
@@ -29,14 +28,24 @@ class Login extends Component {
     .then(resp => resp.json())
     .then(data => {
       this.props.login(data.user);
-      localStorage.setItem("jwt", data.jwt)
-      this.setUser(data)
-    });
+      localStorage.setItem("jwt", data.jwt);
+      localStorage.setItem("user", JSON.stringify(data.user.data.attributes));
+      this.setState({
+        loggedIn: true
+      })
+      console.log(data)
+    })
+    .catch(err => console.log(err));
   }
 
   handleOnSubmit = event => {
     event.preventDefault();
-    this.loginUser({ user: this.state });
+    this.loginUser({
+      user: {
+        username: this.state.username,
+        password: this.state.password
+      }
+    });
     this.setState({
       username: "",
       password: "",
@@ -51,21 +60,21 @@ class Login extends Component {
           Password: <input type="password" name="password" value={this.state.password} onChange={this.handleOnChange} /><br/>
           <Button type="submit" variant="outline-dark">Login</Button>
         </form>
+
+        {this.state.loggedIn ? <Redirect to={`/profile/${this.props.currentUser.id}`}/> : <></>}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return {
-    user: state
-  }
+  return { currentUser: state.users.currentUser }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     startLoginRequest: () => dispatch({ type: 'START_LOGIN_USER_REQUEST' }),
-    login: (loginInfo) => dispatch({ type: 'LOGIN_USER', user: loginInfo }),
+    login: (loginInfo) => dispatch({ type: 'LOGIN_USER', user: loginInfo.data.attributes }),
     redirect: (userId) => dispatch({ type: 'REDIRECT_TO_PROFILE', userId: userId })
   }
 }

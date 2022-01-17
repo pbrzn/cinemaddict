@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import { Redirect } from 'react-router-dom';
 
 class Logout extends Component {
   handleOnClick = event => {
-    this.props.logout()
+    fetch(`http://localhost:3000/api/v1/logout`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${localStorage.jwt}`
+      },
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      localStorage.clear()
+    })
+    this.props.logout();
   }
 
   render() {
+    const loggedIn = !!localStorage.jwt;
     return (
       <div>
         <Button variant="secondary" onClick={event => this.handleOnClick()}>Logout</Button>
+        {loggedIn ? <></> : <Redirect to="/" />}
       </div>
     )
   }
