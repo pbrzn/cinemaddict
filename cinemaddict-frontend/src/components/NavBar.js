@@ -4,6 +4,7 @@ import Logout from './users/Logout';
 import logo from '../images/Film-Reel-256.ico';
 
 const NavBar = () => {
+  let loggedIn = !!localStorage.getItem('jwt');
   return (
     <Navbar bg="dark" variant="dark">
     <Container>
@@ -21,9 +22,9 @@ const NavBar = () => {
       <Nav className="me-auto">
         <Nav.Link href="/movies" className="nav-link">Movies</Nav.Link>
         <Nav.Link href="/reviews" className="nav-link">Reviews</Nav.Link>
+        {loggedIn ? <Nav.Link href={`/profile/${JSON.parse(localStorage.getItem('user')).id}`} className="nav-link">Profile</Nav.Link> : <></>}
       </Nav>
-      {/*TODO: PROFILE <Button /> GOES HERE*/}
-      <Logout />
+      {loggedIn ? <Logout /> : <></> }
     </Container>
   </Navbar>
   )
