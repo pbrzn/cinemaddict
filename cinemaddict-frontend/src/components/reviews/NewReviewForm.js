@@ -10,7 +10,7 @@ class NewReviewForm extends Component {
     body: "",
     rating: "",
     movie_id: this.props.movie.id,
-    user_id: this.props.user.id
+    user_id: localStorage.currentUserId
   }
 
   handleOnChange = event => {
@@ -30,7 +30,6 @@ class NewReviewForm extends Component {
   }
 
   createReview = reviewObject => {
-    console.log(reviewObject)
     fetch("http://localhost:3000/api/v1/reviews", {
       method: "POST",
       headers: {
@@ -41,7 +40,6 @@ class NewReviewForm extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      console.log(data)
       this.props.addReview(data);
     })
   }
@@ -100,7 +98,7 @@ const mapStateToProps = state => {
       body: state.body,
       rating: parseInt(state.rating, 10),
       movieId: state.movie_id,
-      user: state.user
+      userId: localStorage.currentUserId
     },
   }
 }
