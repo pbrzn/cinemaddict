@@ -14,16 +14,18 @@ class Logout extends Component {
     .then(resp => resp.json())
     .then(json => {
       localStorage.clear()
+
     })
     this.props.logout();
+
   }
 
   render() {
     const loggedIn = !!localStorage.jwt;
     return (
       <div>
-        <Button variant="secondary" onClick={event => this.handleOnClick()}>Logout</Button>
-        {loggedIn ? <></> : <Redirect to="/" />}
+        <Button variant="secondary" onClick={event => this.handleOnClick()} href="/">Logout</Button>
+        {/*loggedIn ? <></> : <Redirect exact to="/" />*/}
       </div>
     )
   }

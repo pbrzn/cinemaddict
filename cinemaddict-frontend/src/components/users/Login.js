@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Button from 'react-bootstrap/Button'
+import { Button, Alert } from 'react-bootstrap'
 
 class Login extends Component {
   state = {
     username: "",
     password: "",
-    loggedIn: false
+    loggedIn: false,
+    error: ""
   }
 
   handleOnChange = event => {
@@ -27,13 +28,18 @@ class Login extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      this.props.login(data.user);
-      localStorage.setItem("jwt", data.jwt);
-      localStorage.setItem("user", JSON.stringify(data.user.data.attributes));
-      this.setState({
-        loggedIn: true
-      })
-      console.log(data)
+      if (data.message) {
+        this.setState({
+          error: data.message
+        })
+      } else {
+        this.props.login(data.user);
+        localStorage.setItem("jwt", data.jwt);
+        localStorage.setItem("user", JSON.stringify(data.user.data.attributes));
+        this.setState({
+          loggedIn: true
+        })
+      }
     })
     .catch(err => console.log(err));
   }
@@ -62,6 +68,7 @@ class Login extends Component {
         </form>
 
         {this.state.loggedIn ? <Redirect to={`/profile/${this.props.currentUser.id}`}/> : <></>}
+        {this.state.error && !this.state.loggedIn ? <Alert variant="danger">{this.state.error}</Alert> : <></>}
       </div>
     );
   }

@@ -1,54 +1,62 @@
 import React, { Component } from 'react';
-import Review from '../reviews/Review';
+import { connect } from 'react-redux';
+import { Card, CardGroup, Alert } from 'react-bootstrap';
+import UserReviewsList from '../reviews/UserReviewsList';
 
 class Profile extends Component {
 
   componentDidMount(){
-    fetch(`http://localhost:3000/api/v1/profile/${JSON.parse(localStorage.user).id}`, {
+    fetch(`http://localhost:3000/api/v1/profile/${JSON.parse(localStorage.getItem('user')).id}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('jwt')}`
       }
     })
     .then(resp => resp.json())
-    .then(json => console.log(json))
+    .then(json => {
+      this.props.fetchUser(JSON.parse(localStorage.getItem('user')));
+      this.props.fetchUserReviews(json.user);
+    })
     .catch(err => console.log(err));
-
   }
-
-  renderReviews = props => props.reviews.map(review => {
-    const movie = props.movies.find(movie => movie.id === review.movie_id)
-    return (
-      <li key={review.id}>
-        <Review
-          id={review.id}
-          title={review.title}
-          body={review.body}
-          rating={review.rating}
-          movieTitle={movie.title}
-          moviePoster={movie.poster}
-          username={props.username}
-        />
-      </li>
-    )
-  })
 
   render() {
     const user = JSON.parse(localStorage.getItem('user'))
     return (
-      <div>
-        <img src={user.avatar} alt={user.username} />
-        <h1>{user.username}</h1>
-        <b>Bio: </b> <p>{user.bio}</p>
+      <div className="profile-card">
+        <Card style={{ width: '40rem' }} border="secondary">
+          <Card.Img variant="top" src={user.avatar} alt={user.username} />
+          <Card.Body>
+            <Card.Title><h1><b>{user.username}</b></h1></Card.Title>
+            <Card.Text><b>Bio: </b>{user.bio}</Card.Text>
+          </Card.Body>
+        </Card>
         {user.reviews.length > 0 ?
           <>
             <ul>
-              {this.renderReviews(user)}
+              <CardGroup>
+                <UserReviewsList reviews={this.props.reviews} user={JSON.parse(localStorage.getItem('user'))}/>
+              </CardGroup>
             </ul>
-          </> : <>Click 'Movies' above to peruse and begin reviewing movies!</>}
+          </> :
+          <Alert variant="info">Click <b>'Movies'</b> above to peruse and begin reviewing movies!</Alert>}
       </div>
     )
   }
 }
 
-export default Profile
+const mapStateToProps = state => {
+  return {
+    user: state.users.currentUser,
+    reviews: state.reviews
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUser: user => dispatch({ type: 'FETCH_USER', user: user }),
+    fetchUserReviews: user => dispatch({ type: 'FETCH_USER_REVIEWS', user: user })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

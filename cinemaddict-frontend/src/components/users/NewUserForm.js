@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
+import { Button, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,7 +10,8 @@ class NewUserForm extends Component {
     password: "",
     bio: "",
     avatar: "http://www.fillmurray.com/g/375/375",
-    loggedIn: false
+    loggedIn: false,
+    error: ""
   }
 
   handleOnChange = event => {
@@ -40,14 +41,21 @@ class NewUserForm extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      this.props.addUser(data);
-      localStorage.setItem("jwt", data.jwt);
-      localStorage.setItem("user", JSON.stringify(data.user.data.attributes));
-      this.props.login(data.user);
-      this.setState({
-        id: data.user.data.id,
-        loggedIn: true
-      })
+      if (data.error) {
+        this.setState({
+          error: data.error
+        })
+      } else {
+        console.log(data)
+        this.props.addUser(data);
+        localStorage.setItem("jwt", data.jwt);
+        localStorage.setItem("user", JSON.stringify(data.user.data.attributes));
+        this.props.login(data.user);
+        this.setState({
+          id: data.user.data.id,
+          loggedIn: true
+        })
+      }
     })
     .catch(err => console.log(err))
   }
@@ -61,7 +69,10 @@ class NewUserForm extends Component {
           Bio: <input type="textarea" name="bio" value={this.state.bio} onChange={this.handleOnChange} /><br/>
           <Button type="submit" variant="outline-dark">Submit</Button>
         </form>
+        <br />
+        <br />
         {this.state.loggedIn ? <Redirect to={`/profile/${this.state.id}`}/> : <></>}
+        {this.state.error && !this.state.loggedIn ? <Alert variant="danger">{this.state.error}</Alert> : <></>}
       </div>
     )
   }
