@@ -5,6 +5,7 @@ import NewUserForm from './components/users/NewUserForm';
 import Login from './components/users/Login';
 import Profile from './components/users/Profile';
 import ReviewsContainer from './components/reviews/ReviewsContainer';
+import Review from './components/reviews/Review';
 import MoviesContainer from './components/movies/MoviesContainer';
 import NavBar from './components/NavBar';
 
@@ -21,7 +22,7 @@ class App extends Component {
           <Route path="/profile/:id" component={Profile} />
           <Route path="/register" component={NewUserForm} />
           <Route path="/login" component={Login} />
-          <Route path="/reviews" component={ReviewsContainer} />
+          <Route exact path="/reviews" component={ReviewsContainer} />
           <Route path="/movies" render={(routerProps) => <MoviesContainer {...routerProps} />} />
         </Switch>
       </>
