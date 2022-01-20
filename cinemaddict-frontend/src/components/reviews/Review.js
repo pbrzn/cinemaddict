@@ -1,34 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
-import { Redirect, Route } from 'react-router-dom';
+import { Button, Card } from 'react-bootstrap';
+import { Link, Route, Switch } from 'react-router-dom';
 import EditReviewForm from './EditReviewForm';
+import { deleteReview } from '../actions/reviewsActions';
 
 class Review extends Component {
+
+  handleOnClick = event => {
+    if (event.target.name === "delete") {
+      this.props.deleteReview(this.props.id)
+    }
+  }
+
   render() {
-    const belongsToUser = !!(JSON.parse(localStorage.user).username === this.props.username)
+    const belongsToUser = !!(JSON.parse(localStorage.user).username === this.props.username);
+
     return (
       <div className="review" >
-        <h1><b>{this.props.username}</b>{this.props.movieTitle ? <>'s review of <i>{this.props.movieTitle}</i></> : ''}</h1>
-        {this.props.moviePoster ? <img src={this.props.moviePoster} alt={this.props.title} /> : <></>}
-        <h2>{this.props.title}</h2>
-        <h3>Rating: {this.props.rating}/10</h3>
-        {this.props.body}
-        <br />
-        {!!belongsToUser ?
-          <>
-            <Button variant="outline-dark" onClick={() => <Redirect to={`/reviews/${this.props.id}/edit`} />}>Edit</Button>
-            <br />
-            <Button variant="outline-dark" onClick={this.props.deleteReview(this.props.id)}>Delete</Button>
-          </> : <></>}
-          <Route path='/reviews/:id/edit' render={() => <EditReviewForm review={this.props}/>} />
+        <Card style={{ width: '15em' }}>
+          <Card.Header>{this.props.username}'s review of <b><i>{this.props.movieTitle}</i></b></Card.Header>
+          {this.props.moviePoster ? <Card.Img variant="top" src={this.props.moviePoster} alt={this.props.title} width="10"/> : <></>}
+          <Card.Title><h3>{this.props.title}</h3></Card.Title>
+          <h4>Rating: {this.props.rating}/10</h4>
+          {this.props.body}
+
+          {!!belongsToUser ?
+            <>
+              <Button variant="outline-dark" name="edit" href={`/reviews/${this.props.id}/edit`}>Edit</Button>
+              <Button variant="outline-dark" name="delete" onClick={this.handleOnClick}>Delete</Button>
+            </> : <></>}
+        </Card>
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return { deleteReview: id => dispatch({ type: 'DELETE_REVIEW', id: id }) }
-}
-
-export default connect(null, mapDispatchToProps)(Review)
+export default connect(null, { deleteReview })(Review)

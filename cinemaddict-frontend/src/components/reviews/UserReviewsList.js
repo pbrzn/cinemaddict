@@ -4,24 +4,22 @@ import Review from './Review';
 import EditReviewForm from './EditReviewForm';
 import { Route } from 'react-router-dom';
 import CardGroup from 'react-bootstrap/CardGroup';
-import { fetchReviews } from '../actions/fetchReviews';
+// import { fetchReviews } from '../actions/fetchReviews';
 
-class ReviewsContainer extends Component {
-
-  componentDidMount() {
-    this.props.fetchReviews();
-  }
+class UserReviewsList extends Component {
 
   renderReviews = () => this.props.reviews.map(review => {
+    const movie = this.props.user.movies.find(movie => movie.id === review.movie_id)
     return (
       <li key={review.id}>
         <Review
-          title={review.attributes.title}
-          body={review.attributes.body}
-          rating={review.attributes.rating}
-          movieTitle={review.attributes.movie.title}
-          moviePoster={review.attributes.movie.poster}
-          username={review.attributes.user.username}
+          id={review.id}
+          title={review.title}
+          body={review.body}
+          rating={review.rating}
+          movieTitle={movie.title}
+          moviePoster={movie.poster}
+          username={this.props.user.username}
         />
       </li>
     )
@@ -30,12 +28,13 @@ class ReviewsContainer extends Component {
   render() {
     return (
       <div>
-        <h1 className="page-title">All Reviews</h1>
+        <h1 className="page-title">Reviews</h1>
         <ul>
           <CardGroup>
             {this.renderReviews()}
           </CardGroup>
         </ul>
+        <Route path='reviews/:id/edit' render={() => <EditReviewForm review={this.props.review} />}/>
       </div>
     )
   }
@@ -47,4 +46,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { fetchReviews })(ReviewsContainer)
+export default connect(mapStateToProps)(UserReviewsList)

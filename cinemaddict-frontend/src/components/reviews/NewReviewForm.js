@@ -10,7 +10,7 @@ class NewReviewForm extends Component {
     body: "",
     rating: "",
     movie_id: this.props.movie.id,
-    user_id: localStorage.currentUserId
+    user_id: JSON.parse(localStorage.getItem('user')).id
   }
 
   handleOnChange = event => {
@@ -35,12 +35,17 @@ class NewReviewForm extends Component {
       headers: {
         "Content-type": "application/json",
         "Accept": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('jwt')}`
       },
       body: JSON.stringify(reviewObject)
     })
     .then(resp => resp.json())
     .then(data => {
       this.props.addReview(data);
+      const user = JSON.parse(localStorage.getItem('user'));
+      user.movies.push(this.props.movie)
+      user.reviews.push(data.data.attributes)
+      localStorage.setItem('user', JSON.stringify(user))
     })
   }
 
@@ -97,8 +102,8 @@ const mapStateToProps = state => {
       title: state.title,
       body: state.body,
       rating: parseInt(state.rating, 10),
-      movieId: state.movie_id,
-      userId: localStorage.currentUserId
+      movie_id: state.movie_id,
+      user_id: localStorage.currentUserId
     },
   }
 }

@@ -6,11 +6,27 @@ import { connect } from 'react-redux';
 
 class EditReviewForm extends Component {
   state = {
-    title: this.props.title,
-    body: this.props.body,
-    rating: this.props.rating,
-    movie_id: this.props.movie.id,
+    id: this.props.review.id || this.props.id,
+    title: this.props.review.title || this.props.review.title,
+    body: this.props.review.body || this.props.review.body,
+    rating: this.props.review.rating || this.props.review.rating,
+    movie_id: this.props.review.movie_id || this.props.review.movie_id,
     user_id: localStorage.currentUserId
+  }
+
+  componentDidMount() {
+    fetch(`http://localhost:3000/api/v1/reviews/${this.props.review.id}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${localStorage.jwt}`
+      }
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      console.log(data)
+    })
   }
 
   handleOnChange = event => {
@@ -26,7 +42,7 @@ class EditReviewForm extends Component {
 
   editReview = reviewObject => {
     console.log(reviewObject)
-    fetch("http://localhost:3000/api/v1/reviews", {
+    fetch(`http://localhost:3000/api/v1/reviews/${this.props.review.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -57,11 +73,11 @@ class EditReviewForm extends Component {
     ]
 
     return (
-      <ButtonGroup className="mb-2" id={this.props.movie.id}>
+      <ButtonGroup className="mb-2" id={this.props.review.movie_id}>
         {radios.map((radio, idx) => (
           <ToggleButton
             key={idx}
-            id={`${this.props.movie.id}-${idx}`}
+            id={`${this.props.review.movie_id}-${idx}`}
             type="radio"
             variant="secondary"
             name="rating"
@@ -76,12 +92,13 @@ class EditReviewForm extends Component {
   }
 
   render() {
+    debugger;
     return (
       <div>
         <form onSubmit={this.handleOnSubmit} >
-          Title: <input type="text" name="title" value={this.state.title} onChange={this.handleOnChange} /><br/>
+          Title: <input type="text" name="title" value={this.state.title} placeholder={this.props.review.title} onChange={this.handleOnChange} /><br/>
           Rating: {this.createRadioButtons()}<br/>
-          Body: <input type="textarea" name="body" value={this.state.body} onChange={this.handleOnChange} /><br/>
+          Body: <input type="textarea" name="body" value={this.state.body} placeholder={this.props.review.body} onChange={this.handleOnChange} /><br/>
           <Button type="submit" variant="outline-dark">Submit</Button><br/>
         </form>
       </div>
