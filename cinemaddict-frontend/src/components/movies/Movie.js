@@ -19,6 +19,7 @@ class Movie extends Component {
                   rating={review.rating}
                   body={review.body}
                   username={user.username}
+                  movieTitle={props.title}
                 />
               </li>)
             }
@@ -51,7 +52,7 @@ class Movie extends Component {
         <ul>
           {this.displayReviews(movie)}
         </ul>
-        {loggedIn ? <><p><b>Write A Review</b></p><NewReviewForm movie={movie} user={this.props.currentUser}/></> : <></>}
+        {loggedIn && !JSON.parse(localStorage.getItem('user')).reviews.find(review => review.movie_id === movie.id)? <><p><b>Write A Review</b></p><NewReviewForm movie={movie} user={this.props.currentUser}/></> : <></>}
       </div>
     );
   }

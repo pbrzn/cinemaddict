@@ -16,7 +16,7 @@ class MoviesList extends Component {
   render(){
     return (
       <div className="movies-container">
-        <h1>Movies</h1>
+        <h1 className="page-title">All Movies</h1>
         <ul>
           {this.renderMovieLinks()}
         </ul>
