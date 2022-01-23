@@ -26,7 +26,7 @@ To review a movie, click on the `Movies` link in the Navbar and click on a movie
 
 You may also edit or delete any of your reviews with the click of the `Edit` or `Delete` button.
 
-##Additional Scripts
+## Additional Scripts
 
 ### `npm test`
 
