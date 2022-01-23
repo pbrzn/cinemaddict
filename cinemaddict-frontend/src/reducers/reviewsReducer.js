@@ -3,9 +3,9 @@ export default function reviewsReducer(state = [], action) {
     case 'ADD_REVIEW':
       return state.concat(action.review);
 
-    case 'EDIT_REVIEW':
-      state[action.review.id] = action.review;
-      return state;
+    case 'UPDATE_REVIEW':
+      let idx = state.indexOf(state.find(review => review.id === action.review.id));
+      return [state.slice(0, idx), action.review, state.slice(idx + 1)].flat();
 
     case 'FETCH_REVIEWS':
       return action.reviews.data

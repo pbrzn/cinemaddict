@@ -3,12 +3,6 @@ export default function usersReducer(state = {
 }, action) {
   switch (action.type) {
 
-    case 'ADD_USER':
-      return {
-        ...state,
-        currentUser: action.user,
-      }
-
     case 'LOGIN_USER':
       return {
         ...state,
