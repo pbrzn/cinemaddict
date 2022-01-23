@@ -19,11 +19,10 @@ class Api::V1::ReviewsController < ApplicationController
   end
 
   def update
-    review = Review.update(review_params)
-    if review_params.includes?(review.rating)
-      movie = Movie.find_by(id: review.movie_id)
-      movie.update(cinemaddict_rating: movie.find_avg_rating)
-    end
+    review = Review.find_by(id: params[:id])
+    review.update(review_params)
+    movie = Movie.find_by(id: review.movie_id)
+    movie.update(cinemaddict_rating: movie.find_avg_rating)
     render json: ReviewSerializer.new(review)
   end
 
