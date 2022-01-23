@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+import { Button, ButtonGroup, ToggleButton, Card, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 class NewReviewForm extends Component {
@@ -10,7 +8,8 @@ class NewReviewForm extends Component {
     body: "",
     rating: "",
     movie_id: this.props.movie.id,
-    user_id: JSON.parse(localStorage.getItem('user')).id
+    user_id: JSON.parse(localStorage.getItem('user')).id,
+    submitted: false
   }
 
   handleOnChange = event => {
@@ -46,6 +45,9 @@ class NewReviewForm extends Component {
       user.movies.push(this.props.movie)
       user.reviews.push(data.data.attributes)
       localStorage.setItem('user', JSON.stringify(user))
+      this.setState({
+        submitted: true
+      })
     })
   }
 
@@ -85,12 +87,21 @@ class NewReviewForm extends Component {
   render() {
     return (
       <div>
+        {!!this.state.submitted ? <></> :
         <form onSubmit={this.handleOnSubmit} >
-          Title: <input type="text" name="title" value={this.state.title} onChange={this.handleOnChange} /><br/>
-          Rating: {this.createRadioButtons()}<br/>
-          Body: <input type="textarea" name="body" value={this.state.body} onChange={this.handleOnChange} /><br/>
-          <Button type="submit" variant="outline-dark">Submit</Button><br/>
-        </form>
+          <Card style={{ width: '22.25em' }} id="write-review-card">
+            <Card.Header><h4><b>Write A Review</b></h4></Card.Header>
+            <Card.Text>
+              Title: <input type="text" name="title" value={this.state.title} onChange={this.handleOnChange} /><br/>
+              Rating: {this.createRadioButtons()}<br/>
+              Body: <input type="textarea" name="body" value={this.state.body} onChange={this.handleOnChange} />
+              <br/>
+              <br/>
+              <Button type="submit" variant="outline-dark">Submit</Button><br/>
+            </Card.Text>
+          </Card>
+        </form>}
+        {!!this.state.submitted ? <Alert variant="success">Your review has been uploaded!</Alert> : <></>}
       </div>
     )
   }

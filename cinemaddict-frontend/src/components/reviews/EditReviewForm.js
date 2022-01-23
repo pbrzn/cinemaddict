@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+import { withRouter } from 'react-router-dom';
+import { Button, ButtonGroup, ToggleButton, Card, Alert } from 'react-bootstrap';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 class EditReviewForm extends Component {
   state = {
-    id: this.props.review.id || this.props.id,
-    title: this.props.review.title || this.props.review.title,
-    body: this.props.review.body || this.props.review.body,
-    rating: this.props.review.rating || this.props.review.rating,
-    movie_id: this.props.review.movie_id || this.props.review.movie_id,
-    user_id: localStorage.currentUserId
+    id: parseInt(this.props.match.params.id, 10),
+    title: "",
+    body: "",
+    rating: "",
+    movie_id: "",
+    user_id: "",
+    movie_title: "",
+    submitted: false
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/reviews/${this.props.review.id}`, {
+    const id = this.props.match.params.id;
+    fetch(`http://localhost:3000/api/v1/reviews/${id}`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -25,7 +28,14 @@ class EditReviewForm extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      console.log(data)
+      this.setState({
+        title: data.data.attributes.title,
+        body: data.data.attributes.body,
+        rating: data.data.attributes.rating,
+        movie_id: data.data.attributes.movie_id,
+        movieTitle: data.data.attributes.movie.title,
+        user_id: data.data.attributes.user_id
+      })
     })
   }
 
@@ -37,12 +47,22 @@ class EditReviewForm extends Component {
 
   handleOnSubmit = event => {
     event.preventDefault();
-    this.editReview({ review: this.state });
+    this.editReview({
+      review: {
+        id: this.state.id,
+        title: this.state.title,
+        body: this.state.body,
+        rating: parseInt(this.state.rating, 10),
+        movie_id: this.state.movie_id,
+        user_id: this.state.user_id
+      }
+    });
   }
 
   editReview = reviewObject => {
-    console.log(reviewObject)
-    fetch(`http://localhost:3000/api/v1/reviews/${this.props.review.id}`, {
+    const id = this.props.match.params.id;
+    debugger;
+    fetch(`http://localhost:3000/api/v1/reviews/${id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -53,8 +73,10 @@ class EditReviewForm extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      console.log(data);
       this.props.updateReview(data);
+      this.setState({
+        submitted: true
+      })
     })
   }
 
@@ -73,11 +95,11 @@ class EditReviewForm extends Component {
     ]
 
     return (
-      <ButtonGroup className="mb-2" id={this.props.review.movie_id}>
+      <ButtonGroup className="mb-2" id={this.state.movie_id}>
         {radios.map((radio, idx) => (
           <ToggleButton
             key={idx}
-            id={`${this.props.review.movie_id}-${idx}`}
+            id={`${this.state.movie_id}-${idx}`}
             type="radio"
             variant="secondary"
             name="rating"
@@ -92,29 +114,25 @@ class EditReviewForm extends Component {
   }
 
   render() {
-    debugger;
     return (
-      <div>
+      <div id="edit-review">
+        <h1 className="page-title">Edit Your Review of <i>{this.state.movieTitle}</i></h1>
         <form onSubmit={this.handleOnSubmit} >
-          Title: <input type="text" name="title" value={this.state.title} placeholder={this.props.review.title} onChange={this.handleOnChange} /><br/>
-          Rating: {this.createRadioButtons()}<br/>
-          Body: <input type="textarea" name="body" value={this.state.body} placeholder={this.props.review.body} onChange={this.handleOnChange} /><br/>
-          <Button type="submit" variant="outline-dark">Submit</Button><br/>
+          <Card style={{ width: '22.25em' }} id="edit-review-card">
+            <Card.Text>
+              Title: <input type="text" name="title" value={this.state.title} placeholder={this.state.title} onChange={this.handleOnChange} /><br/>
+              <b>Your Rating: {this.state.rating}/10</b><br/>
+              Change Rating: {this.createRadioButtons()}<br/>
+              Body: <input type="textarea" name="body" value={this.state.body} placeholder={this.state.body} onChange={this.handleOnChange} />
+              <br/>
+              <br/>
+              <Button type="submit" variant="outline-dark">Submit</Button>
+            </Card.Text>
+          </Card>
         </form>
+        {!!this.state.submitted ? <Alert variant="success">Your review has been updated!</Alert> : <></>}
       </div>
     )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    review: {
-      title: state.title,
-      body: state.body,
-      rating: parseInt(state.rating, 10),
-      movieId: state.movie_id,
-      userId: localStorage.currentUserId
-    },
   }
 }
 
@@ -124,4 +142,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditReviewForm);
+export default compose(withRouter, connect(null, mapDispatchToProps))(EditReviewForm);
