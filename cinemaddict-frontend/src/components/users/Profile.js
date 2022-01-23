@@ -38,8 +38,8 @@ class Profile extends Component {
                 <UserReviewsList reviews={this.props.reviews} user={JSON.parse(localStorage.getItem('user'))}/>
               </CardGroup>
             </ul>
-          </> :
-          <Alert variant="info">Click <b>'Movies'</b> above to peruse and begin reviewing movies!</Alert>}
+          </> : <></>}
+          <Alert variant="info">Click <b>'Movies'</b> at the top of the page to peruse and review movies!</Alert>
       </div>
     )
   }

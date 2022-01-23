@@ -9,7 +9,7 @@ class NewUserForm extends Component {
     username: "",
     password: "",
     bio: "",
-    avatar: "http://www.fillmurray.com/g/375/375",
+    avatar: "https://www.fillmurray.com/g/500/700",
     loggedIn: false,
     error: ""
   }
@@ -46,15 +46,13 @@ class NewUserForm extends Component {
           error: data.error
         })
       } else {
-        console.log(data)
-        this.props.addUser(data);
+        this.props.login(data.user);
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("user", JSON.stringify(data.user.data.attributes));
-        this.props.login(data.user);
         this.setState({
           id: data.user.data.id,
           loggedIn: true
-        })
+        });
       }
     })
     .catch(err => console.log(err))
@@ -71,7 +69,7 @@ class NewUserForm extends Component {
         </form>
         <br />
         <br />
-        {this.state.loggedIn ? <Redirect to={`/profile/${this.state.id}`}/> : <></>}
+        {this.state.loggedIn ? <><Redirect to="/profile" /></> : <></>}
         {this.state.error && !this.state.loggedIn ? <Alert variant="danger">{this.state.error}</Alert> : <></>}
       </div>
     )
@@ -92,7 +90,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addUser: (userObject) => dispatch({ type: 'ADD_USER', userObject }),
     login: (loginObject) => dispatch({ type: 'LOGIN_USER', currentUser: loginObject })
   }
 }
