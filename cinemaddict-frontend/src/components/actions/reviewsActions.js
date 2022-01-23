@@ -26,7 +26,6 @@ function deleteReview(reviewId) {
         "Accept": "application/json",
         "Authorization": `Bearer ${localStorage.jwt}`
       },
-      body: JSON.stringify(reviewId)
     })
     .then(resp => resp.json())
     .then(data => dispatch({
