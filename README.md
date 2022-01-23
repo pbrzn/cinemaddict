@@ -20,7 +20,7 @@ You may also see any lint errors in the console.
 
 ## How To Use CINEMADDICT
 
-You can register as a new user or login as an existing one from the Home page. Upon successful registration/login, you will be redirected to your profile, where you will see your existing reviews if you have any.
+You can register as a new user or login as an existing one from the `Home` page. Upon successful registration/login, you will be redirected to your profile, where you will see your existing reviews if you have any.
 
 To review a movie, click on the `Movies` link in the Navbar and click on a movie link of your choice. This will bring you to that movie's page where you will see all existing reviews of that movie and a form to submit a new review.
 
