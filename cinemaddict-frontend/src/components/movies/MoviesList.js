@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Movie from './Movie';
 import { Route, Link } from 'react-router-dom';
 
-class MoviesList extends Component {
+function MoviesList(props) {
 
-  renderMovieLinks = () => this.props.movies.map(movie => {
+  const renderMovieLinks = props.movies.map(movie => {
     let movieId = movie.id;
     return (
       <li key={movie.id}>
@@ -13,21 +13,19 @@ class MoviesList extends Component {
     )
   })
 
-  render(){
-    return (
-      <div className="movies-container">
-        <h1 className="page-title">All Movies</h1>
-        <ul>
-          {this.renderMovieLinks()}
-        </ul>
+  return (
+    <div className="movies-container">
+      <h1 className="page-title">All Movies</h1>
+      <ul>
+        {renderMovieLinks}
+      </ul>
 
-        <Route
-          path={`${this.props.match.url}/:movieId`}
-          render={(routerProps) => <Movie {...routerProps} movies={this.props.movies} />}
-        />
-      </div>
-    );
-  }
+      <Route
+        path={`${props.match.url}/:movieId`}
+        render={(routerProps) => <Movie {...routerProps} movies={this.props.movies} />}
+      />
+    </div>
+  );
 }
 
 export default MoviesList
