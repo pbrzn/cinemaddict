@@ -2004,7 +2004,7 @@ Movie.create([
     username = Faker::Twitter.screen_name
     password = "password"
     bio = Faker::Lorem.paragraph(sentence_count: 4)
-    avatar = Faker::Avatar.image
+    avatar = Faker::Fillmurray.image(grayscale: true, width: 500, height: 700)
 
     User.create(username: username, password: password, bio: bio, avatar: avatar)
   end
