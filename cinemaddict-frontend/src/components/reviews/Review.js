@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Card } from 'react-bootstrap';
-import { Link, Route, Switch } from 'react-router-dom';
-import EditReviewForm from './EditReviewForm';
+import { Button, Card, Alert } from 'react-bootstrap';
 import { deleteReview } from '../actions/reviewsActions';
 
 class Review extends Component {
@@ -10,11 +8,12 @@ class Review extends Component {
   handleOnClick = event => {
     if (event.target.name === "delete") {
       this.props.deleteReview(this.props.id)
+      return (<><Alert variant="success">Review Deleted</Alert></>)
     }
   }
 
   render() {
-    const belongsToUser = !!(JSON.parse(localStorage.user).username === this.props.username);
+    const belongsToUser = localStorage.user && !!(JSON.parse(localStorage.user).username === this.props.username) ?  true : false;
 
     return (
       <div className="review" >
@@ -25,7 +24,7 @@ class Review extends Component {
           <h4>Rating: {this.props.rating}/10</h4>
           {this.props.body}
 
-          {!!belongsToUser ?
+          {belongsToUser ?
             <>
               <Button variant="outline-dark" name="edit" href={`/reviews/${this.props.id}/edit`}>Edit</Button>
               <Button variant="outline-dark" name="delete" onClick={this.handleOnClick}>Delete</Button>

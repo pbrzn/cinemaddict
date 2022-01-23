@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Review from './Review';
 import EditReviewForm from './EditReviewForm';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { fetchReviews } from '../actions/fetchReviews';
 
@@ -16,6 +16,7 @@ class ReviewsContainer extends Component {
     return (
       <li key={review.id}>
         <Review
+          id={review.id}
           title={review.attributes.title}
           body={review.attributes.body}
           rating={review.attributes.rating}
@@ -30,12 +31,18 @@ class ReviewsContainer extends Component {
   render() {
     return (
       <div>
-        <h1 className="page-title">All Reviews</h1>
-        <ul>
-          <CardGroup>
-            {this.renderReviews()}
-          </CardGroup>
-        </ul>
+        <Switch>
+          <Route exact path="/reviews">
+            <h1 className="page-title">All Reviews</h1>
+            <ul>
+              <CardGroup>
+                {this.renderReviews()}
+              </CardGroup>
+            </ul>
+          </Route>
+          <Route path="/reviews/:id/edit" render={() => <EditReviewForm reviews={this.props.reviews} />}/>
+        </Switch>
+
       </div>
     )
   }

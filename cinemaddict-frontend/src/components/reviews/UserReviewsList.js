@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Review from './Review';
 import EditReviewForm from './EditReviewForm';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import CardGroup from 'react-bootstrap/CardGroup';
-// import { fetchReviews } from '../actions/fetchReviews';
 
-class UserReviewsList extends Component {
+function UserReviewsList(props) {
 
-  renderReviews = () => this.props.reviews.map(review => {
-    const movie = this.props.user.movies.find(movie => movie.id === review.movie_id)
+  const renderReviews = props.reviews.map(review => {
+    const movie = props.user.movies.find(movie => movie.id === review.movie_id)
     return (
       <li key={review.id}>
         <Review
@@ -19,31 +18,24 @@ class UserReviewsList extends Component {
           rating={review.rating}
           movieTitle={movie.title}
           moviePoster={movie.poster}
-          username={this.props.user.username}
+          username={props.user.username}
         />
       </li>
     )
   })
 
-  render() {
-    return (
-      <div>
-        <h1 className="page-title">Reviews</h1>
-        <ul>
-          <CardGroup>
-            {this.renderReviews()}
-          </CardGroup>
-        </ul>
-        <Route path='reviews/:id/edit' render={() => <EditReviewForm review={this.props.review} />}/>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h1 className="page-title">Reviews</h1>
+      <ul>
+        <CardGroup>
+          {renderReviews}
+        </CardGroup>
+      </ul>
+
+
+    </div>
+  )
 }
 
-const mapStateToProps = state => {
-  return {
-    reviews: state.reviews
-  }
-}
-
-export default connect(mapStateToProps)(UserReviewsList)
+export default UserReviewsList
