@@ -73,3 +73,19 @@ li.div.card {
   text-align: center;
   text-shadow: 12;
 }
+
+h3#reviews-title {
+  margin-left: 2rem;
+}
+
+#write-review-card.card {
+  text-align: center;
+}
+
+div#edit-review-card {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  align-items: center;
+  padding: 2rem;
+}
