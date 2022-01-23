@@ -67,7 +67,7 @@ class Login extends Component {
           <Button type="submit" variant="outline-dark">Login</Button>
         </form>
 
-        {this.state.loggedIn ? <Redirect to={`/profile/${this.props.currentUser.id}`}/> : <></>}
+        {this.state.loggedIn ? <><Redirect to="/profile"/></> : <></>}
         {this.state.error && !this.state.loggedIn ? <Alert variant="danger">{this.state.error}</Alert> : <></>}
       </div>
     );
@@ -80,9 +80,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    startLoginRequest: () => dispatch({ type: 'START_LOGIN_USER_REQUEST' }),
     login: (loginInfo) => dispatch({ type: 'LOGIN_USER', user: loginInfo.data.attributes }),
-    redirect: (userId) => dispatch({ type: 'REDIRECT_TO_PROFILE', userId: userId })
   }
 }
 

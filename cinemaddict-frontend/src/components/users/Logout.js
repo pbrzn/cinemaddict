@@ -17,15 +17,12 @@ class Logout extends Component {
 
     })
     this.props.logout();
-
   }
 
   render() {
-    const loggedIn = !!localStorage.jwt;
     return (
       <div>
         <Button variant="secondary" onClick={event => this.handleOnClick()} href="/">Logout</Button>
-        {/*loggedIn ? <></> : <Redirect exact to="/" />*/}
       </div>
     )
   }
