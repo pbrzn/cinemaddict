@@ -61,7 +61,6 @@ class EditReviewForm extends Component {
 
   editReview = reviewObject => {
     const id = this.props.match.params.id;
-    debugger;
     fetch(`http://localhost:3000/api/v1/reviews/${id}`, {
       method: "PATCH",
       headers: {
