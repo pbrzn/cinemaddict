@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Card, Alert } from 'react-bootstrap';
-import { deleteReview } from '../actions/reviewsActions';
+import { deleteReview } from '../../actions/reviewsActions';
 
 class Review extends Component {
 

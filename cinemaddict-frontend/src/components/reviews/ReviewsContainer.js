@@ -4,7 +4,7 @@ import Review from './Review';
 import EditReviewForm from './EditReviewForm';
 import { Route, Switch } from 'react-router-dom';
 import CardGroup from 'react-bootstrap/CardGroup';
-import { fetchReviews } from '../actions/fetchReviews';
+import { fetchReviews } from '../../actions/fetchReviews';
 
 class ReviewsContainer extends Component {
 

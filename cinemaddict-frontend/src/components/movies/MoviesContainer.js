@@ -3,7 +3,7 @@ import MoviesList from './MoviesList';
 import Movie from './Movie';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchMovies } from '../actions/fetchMovies';
+import { fetchMovies } from '../../actions/fetchMovies';
 
 class MoviesContainer extends Component {
 

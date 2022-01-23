@@ -1,8 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import Review from './Review';
-import EditReviewForm from './EditReviewForm';
-import { Route, Switch } from 'react-router-dom';
 import CardGroup from 'react-bootstrap/CardGroup';
 
 function UserReviewsList(props) {
