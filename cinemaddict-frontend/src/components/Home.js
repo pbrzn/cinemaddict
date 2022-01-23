@@ -6,9 +6,9 @@ import filmStrip from '../images/film-strip.png';
 import clapperboard from '../images/clapperboard.png';
 import { Redirect } from 'react-router-dom';
 
-const Home = () => {
+function Home() {
   if (!!localStorage.jwt) {
-    return <Redirect to={`/profile/${JSON.parse(localStorage.getItem('user')).id}`} />
+    return <Redirect to="/profile" />
   } else {
     return (
       <div className="home">
