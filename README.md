@@ -4,11 +4,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## To Start
 
-In the cinemaddict-backend directory, run:
+In the `cinemaddict-backend` directory, run:
 
 ### `rails s`
 
-...to load the database. Then, in a separate tab in your Terminal, navigate to the cinemaddict-frontend directory, run:
+...to load the database. Then, in a separate tab in your Terminal, navigate to the `cinemaddict-frontend` directory, run:
 
 ### `npm start`
 
