@@ -7,7 +7,7 @@ import logo from '../images/Film-Reel-256.ico';
 class NavBar extends Component {
 
   render() {
-    if (Object.keys(this.props.user).length > 0 || localStorage.jwt) {
+    if (Object.keys(this.props.user).length > 0 || !!localStorage.jwt) {
       return (
         <Navbar bg="dark" variant="dark">
         <Container>

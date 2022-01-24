@@ -33,6 +33,7 @@ class Login extends Component {
           error: data.message
         })
       } else {
+        console.log(data)
         this.props.login(data.user);
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("user", JSON.stringify(data.user.data.attributes));

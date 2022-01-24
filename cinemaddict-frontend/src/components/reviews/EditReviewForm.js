@@ -72,7 +72,7 @@ class EditReviewForm extends Component {
     })
     .then(resp => resp.json())
     .then(data => {
-      this.props.updateReview(data);
+      this.props.updateReview(data.data);
       this.setState({
         submitted: true
       })

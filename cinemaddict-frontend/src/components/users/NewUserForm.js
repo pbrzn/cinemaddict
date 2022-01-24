@@ -46,11 +46,11 @@ class NewUserForm extends Component {
           error: data.error
         })
       } else {
-        this.props.login(data.user);
+        console.log(data)
         localStorage.setItem("jwt", data.jwt);
         localStorage.setItem("user", JSON.stringify(data.user.data.attributes));
+        this.props.login(data.user);
         this.setState({
-          id: data.user.data.id,
           loggedIn: true
         });
       }
@@ -90,7 +90,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (loginObject) => dispatch({ type: 'LOGIN_USER', currentUser: loginObject })
+    login: (loginObject) => dispatch({ type: 'LOGIN_USER', user: loginObject.data.attributes })
   }
 }
 
