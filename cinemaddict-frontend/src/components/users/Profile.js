@@ -35,11 +35,11 @@ class Profile extends Component {
           <>
             <ul>
               <CardGroup>
-                <UserReviewsList reviews={this.props.reviews} user={JSON.parse(localStorage.getItem('user'))}/>
+                <UserReviewsList reviews={this.props.reviews} user={this.props.user}/>
               </CardGroup>
             </ul>
           </> : <></>}
-          <Alert variant="info">Click <b>'Movies'</b> at the top of the page to peruse and review movies!</Alert>
+          <Alert>Click <b>'Movies'</b> at the top of the page to peruse and review movies!</Alert>
       </div>
     )
   }

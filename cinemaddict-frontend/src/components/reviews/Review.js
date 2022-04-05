@@ -17,7 +17,7 @@ class Review extends Component {
 
     return (
       <div className="review" >
-        <Card style={{ width: '15em' }}>
+        <Card className="movie-card" style={{ width: '15em' }}>
           <Card.Header>{this.props.username}'s review of <b><i>{this.props.movieTitle}</i></b></Card.Header>
           {this.props.moviePoster ? <Card.Img variant="top" src={this.props.moviePoster} alt={this.props.title} width="10"/> : <></>}
           <Card.Title><h3>{this.props.title}</h3></Card.Title>
@@ -26,8 +26,8 @@ class Review extends Component {
 
           {belongsToUser ?
             <>
-              <Button variant="outline-dark" name="edit" href={`/reviews/${this.props.id}/edit`}>Edit</Button>
-              <Button variant="outline-dark" name="delete" onClick={this.handleOnClick}>Delete</Button>
+              <Button variant="dark" name="edit" href={`/reviews/${this.props.id}/edit`}>Edit</Button>
+              <Button variant="dark" className="delete-btn" name="delete" onClick={this.handleOnClick}>Delete</Button>
             </> : <></>}
         </Card>
       </div>

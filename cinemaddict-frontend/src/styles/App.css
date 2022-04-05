@@ -69,6 +69,10 @@ li.div.card {
   margin: .25rem;
 }
 
+div.card.movie-card {
+  background-color: #E6E6E6;
+}
+
 .page-title {
   text-align: center;
   text-shadow: 12;
@@ -88,4 +92,16 @@ div#edit-review-card {
   text-align: center;
   align-items: center;
   padding: 2rem;
+}
+
+.movie-card .btn {
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.alert {
+  background: #212529;
+  color: white;
 }
